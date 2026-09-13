@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const AuthContext = createContext(null);
 
@@ -8,7 +9,7 @@ export function AuthProvider({ children }) {
 
   async function checkSession() {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/session", {
+      const response = await fetch(`${API_URL}/auth/session`, {
         credentials: "include",
       });
 
@@ -28,7 +29,7 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    await fetch("http://localhost:5000/api/auth/logout", {
+    await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
     });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const emptyForm = {
   name: "",
@@ -24,7 +25,7 @@ function ClientsPage() {
   useEffect(() => {
     async function loadClients() {
       try {
-        const response = await fetch("http://localhost:5000/api/clients", {
+        const response = await fetch(`${API_URL}/clients`, {
           credentials: "include",
         });
 
@@ -90,11 +91,11 @@ function ClientsPage() {
       action = event.nativeEvent.submitter.value;
     }
 
-    let url = "http://localhost:5000/api/clients";
+    let url = `${API_URL}/clients`;
     let method = "POST";
 
     if (editingClientId !== null) {
-      url = `http://localhost:5000/api/clients/${editingClientId}`;
+      url = `${API_URL}/clients/${editingClientId}`;
       method = "PATCH";
     }
 
@@ -178,13 +179,10 @@ function ClientsPage() {
     setDeletingClientId(client.id);
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/clients/${client.id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      const response = await fetch(`${API_URL}/clients/${client.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       const data = await response.json();
 
